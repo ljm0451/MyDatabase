@@ -1,0 +1,3 @@
+USE SPJ SELECT SNO 供应工程J1零件P1的供应商代码
+FROM SPJ
+WHERE JNO = 'J1' AND PNO = 'P1'
