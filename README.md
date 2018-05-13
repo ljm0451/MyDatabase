@@ -1,5 +1,5 @@
 # 数据库系统概论（第五版 王珊）
-[![picture](https://raw.githubusercontent.com/ljm0451/MyDatabase/master/database.jpg)](http://www.hep.com.cn/book/details?uuid=bae52acd-15ae-1000-bd5e-d52640b36cd2)
+[![picture](https://raw.githubusercontent.com/ljm0451/MyDatabase/master/database.jpg)](http://www.hep.com.cn/book/details?uuid=bae52acd-15ae-1000-bd5e-d52640b36cd2 "点击查看本书详情及购买")
 
 ### 第二章第6题
 
