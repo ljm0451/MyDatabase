@@ -177,8 +177,8 @@ INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S5','P6','J4',500);
 
 SELECT * FROM SPJ
 ```
-1. (1)求供应工程J1零件的供应商代码SNO <br/>
-``` t-sql
+1. (1)求供应工程J1零件的供应商代码SNO
+``` 
 USE SPJ SELECT SNO 供应工程J1零件的供应商代码
 FROM SPJ
 WHERE JNO = 'J1'
@@ -213,7 +213,6 @@ FROM   (SELECT SNO, PNO
 WHERE J1.PNO IN (SELECT PNO
 				 FROM P
 				 WHERE COLOR = '红')
-
 ```
 1. (4)求没有使用天津供应商生产的红色零件的工程号JNO
 ```
@@ -223,8 +222,6 @@ FROM SPJ
 WHERE JNO NOT IN (SELECT JNO
 				  FROM SPJ,P,S 
 				  WHERE S.CITY='天津' AND COLOR='红' AND S.SNO=SPJ.SNO  AND P.PNO=SPJ.PNO)
-
-
 
 USE SPJ
 SELECT JNO 没有使用天津供应商生产的红零件的工程号
@@ -290,5 +287,4 @@ WHERE NOT EXISTS(
 		 FROM (SELECT PNO FROM SPJ
 			   WHERE JNO = spj1.JNO) AS spj1_pno
 		 WHERE S1.PNO = spj1_pno.PNO))
-
 ```
