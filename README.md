@@ -9,5 +9,5 @@
     <span class="hljs-function">J</span>(JNO,JNAME,CITY);            <span class="hljs-comment">//工程项目代码（JNO）、工程项目名（JNAM                                E）、工程项目所在城市（CITY）</span>
     <span class="hljs-function">SPJ</span>(SNO,PNO,JNO,QTY);        <span class="hljs-comment">//供应商代码（SNO）、零件代码（PNO）、工                                程项目代码（JNO）、供应数量（QTY）</span>
 
-S表&lt;br/&gt;
-asdklfja
+S表 &lt;br&gt;
+lala
