@@ -1,0 +1,4 @@
+use SPJ
+UPDATE P
+SET COLOR = 'À¶'
+WHERE COLOR = 'ºì'

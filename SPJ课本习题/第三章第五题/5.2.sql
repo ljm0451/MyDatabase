@@ -1,0 +1,3 @@
+use SPJ
+SELECT PNAME 零件, COLOR 颜色, WEIGHT 重量
+FROM P

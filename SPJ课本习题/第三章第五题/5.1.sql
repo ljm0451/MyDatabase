@@ -1,0 +1,3 @@
+use SPJ
+SELECT SNAME 供应商, CITY 所在城市
+FROM S
