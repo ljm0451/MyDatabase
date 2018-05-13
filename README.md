@@ -1,6 +1,8 @@
 # 数据库系统概论（第五版 王珊）
 [![picture](https://raw.githubusercontent.com/ljm0451/MyDatabase/master/database.jpg)](http://www.hep.com.cn/book/details?uuid=bae52acd-15ae-1000-bd5e-d52640b36cd2 "点击查看本书详情及购买")
 
+<a herf="www.baidu.com" target="_blank">百度</a>
+
 ### [第二章第6题](https://github.com/ljm0451/MyDatabase/tree/master/SPJ%E8%AF%BE%E6%9C%AC%E4%B9%A0%E9%A2%98/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%AC%AC%E5%85%AD%E9%A2%98#%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%AC%AC6%E9%A2%98)
 
 #### [(1)求供应工程J1零件的供应商代码SNO](https://github.com/ljm0451/MyDatabase/tree/master/SPJ%E8%AF%BE%E6%9C%AC%E4%B9%A0%E9%A2%98/%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%AC%AC%E5%85%AD%E9%A2%98#1%E6%B1%82%E4%BE%9B%E5%BA%94%E5%B7%A5%E7%A8%8Bj1%E9%9B%B6%E4%BB%B6%E7%9A%84%E4%BE%9B%E5%BA%94%E5%95%86%E4%BB%A3%E7%A0%81sno)
