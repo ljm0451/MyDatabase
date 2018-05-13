@@ -8,12 +8,8 @@
     <span class="hljs-function">P</span>(PNO,PNAME,<span class="hljs-attribute">COLOR</span>,WEIGHT);
     <span class="hljs-function">J</span>(JNO,JNAME,CITY);
     <span class="hljs-function">SPJ</span>(SNO,PNO,JNO,QTY);
-    <span class="hljs-comment">/*
-    供应商代码（SNO）、供应商姓名（SNAME）、供应商状态（STATUS）、供应商所在城市（CITY）
-    零件代码（PNO）、零件名（PNAME）、颜色（COLOR）、重量（WEIGHT）
-    工程项目代码（JNO）、工程项目名（JNAME）、工程项目所在城市（CITY）
-    供应商代码（SNO）、零件代码（PNO）、工程项目代码（JNO）、供应数量（QTY）
-    */</span>
 
-S表 &lt;br&gt;
-lala
+供应商代码（SNO）、供应商姓名（SNAME）、供应商状态（STATUS）、供应商所在城市（CITY）&lt;br/&gt;
+零件代码（PNO）、零件名（PNAME）、颜色（COLOR）、重量（WIGHT）&lt;br/&gt;
+工程项目代码（JNO）、工程项目名（JNAME）、工程项目所在城市（CITY）&lt;br/&gt;
+供应商代码（SNO）、零件代码（PNO）、工程项目代码（JNO）、供应数量（QTY）&lt;br/&gt;
