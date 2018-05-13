@@ -62,27 +62,9 @@ S5|P3|J1|200
 S5|P6|J2|200
 S5|P6|J4|500
 
-这是普通字？
 #### 用SQL语句完成以下查询
-
-<table>
-  <tr>
-    <th width=10%, bgcolor=yellow >参数</th>
-    <th width=40%, bgcolor=yellow>详细解释</th>
-    <th width="50%", bgcolor=yellow>备注</th>
-  </tr>
-  <tr>
-    <td bgcolor=#eeeeee> -l </td>
-    <td> use a long listing format  </td>
-    <td> 以长列表方式显示（显示出文件/文件夹详细信息）  </td>
-  </tr>
-  <tr>
-    <td bgcolor=#00FF00>-t </td>
-    <td> sort by modification time </td>
-    <td> 按照修改时间排序（默认最近被修改的文件/文件夹排在最前面） </td>
-  <tr>
-    <td bgcolor=rgb(0,10,0)>-r </td>
-    <td> reverse order while sorting </td>
-    <td>  逆序排列 </td>
-  </tr>
-</table>
+1. (1)求供应工程J1零件的供应商代码SNO <br/>
+      ``` t-sql
+		USE SPJ SELECT SNO 供应工程J1零件的供应商代码
+		FROM SPJ
+		WHERE JNO = 'J1'
