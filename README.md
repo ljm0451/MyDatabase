@@ -43,6 +43,9 @@
 
 #### [(2)找出供应商S1的供应情况。](https://github.com/ljm0451/MyDatabase/tree/master/SPJ%E8%AF%BE%E6%9C%AC%E4%B9%A0%E9%A2%98/%E7%AC%AC%E4%B8%89%E7%AB%A0%E7%AC%AC%E4%B9%9D%E9%A2%98%E2%80%94%E8%A7%86%E5%9B%BE#2%E6%89%BE%E5%87%BA%E4%BE%9B%E5%BA%94%E5%95%86s1%E7%9A%84%E4%BE%9B%E5%BA%94%E6%83%85%E5%86%B5)
 
+关于创建登录名及关联上用户名，由于忘记备份，自行百度[https://www.cnblogs.com/yunspider/p/7719714.html](https://www.cnblogs.com/yunspider/p/7719714.html)
+授权部分语句可查看作业文档第四章内容[授权语句知识文档](https://github.com/ljm0451/MyDatabase/blob/master/20161101049%20%E8%94%A1%E7%BA%AA%E8%89%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%9C%E4%B8%9A.docx)
+
 
 
 
