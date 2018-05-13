@@ -1,156 +1,29 @@
-### 第三章第5题
+### 第三章第9题
 
-针对第二章第六题完成以下操作。
-#### 对比(4)题理解聚集函数的使用，做demo测试如下。
-```
-SELECT SNAME, MAX(QTY) MAX, MIN(QTY) MIN
-FROM SPJ, S
-WHERE SPJ.SNO = S.SNO
-GROUP BY SNAME
-
-SELECT SPJ.SNO, SNAME, QTY
-FROM SPJ, S
-WHERE SPJ.SNO = S.SNO
-ORDER BY S.SNO
-
-SELECT SNO, SNAME, MAX(QTY) 最大数量, MIN(QTY) 最小数量
-FROM (SELECT TOP (100) PERCENT SPJ.SNO, QTY, SNAME
-	  FROM SPJ, S
-	  WHERE SPJ.SNO = S.SNO
-	  ORDER BY S.SNO) AS TEMP
-GROUP BY SNO, SNAME
-
-SELECT SNO, MAX(QTY) 最大数量, MIN(QTY) 最小数量
-FROM (SELECT TOP (100) PERCENT SPJ.SNO, QTY, SNAME
-	  FROM SPJ, S
-	  WHERE SPJ.SNO = S.SNO
-	  ORDER BY S.SNO) AS TEMP
-GROUP BY SNO
-```
-#### (1)所有供应商的姓名和所在城市。
-``` 
-use SPJ
-SELECT SNAME 供应商, CITY 所在城市
-FROM S
-```
-#### (2)所有零件的名称颜色重量。
+请为三建这个工程项目建立一个供应情况的视图，包括供应商代码（SNO），零件代码，供应数量。
+<br>针对该视图完成下列查询。
 ```
 use SPJ
-SELECT PNAME 零件, COLOR 颜色, WEIGHT 重量
-FROM P
-```
-#### (3)使用供应商S1所供应的零件的工程项目号。
-```
-use SPJ
-SELECT DISTINCT JNO
-FROM SPJ
-WHERE SNO = 'S1'
-```
-#### (4)找出工程J2使用的各种零件的名称和数量。
-```
-/*不考虑零件由不同供应商提供
-  J2是巧合*/
-use SPJ
-SELECT PNAME, QTY
-FROM (SELECT PNO, PNAME
-	  FROM P) AS PNOPNAME,(SELECT PNO, QTY
-						   FROM SPJ
-						   WHERE JNO = 'J2') AS PNOQTY
-WHERE PNOPNAME.PNO = PNOQTY.PNO
-ORDER BY PNAME
-
-/*考虑零件是由不同供应商提供的*/
-SELECT PNAME 零件名称, SUM(QTY) 零件数量
-FROM (SELECT TOP 100 PERCENT PNAME, QTY									/*必须加上 SELECT TOP 100 PERCENT, 不然order by 不能在子查询中*/
-	  FROM (SELECT PNO, PNAME											/*因为对于一个表的SELECT,返回的并不是一个表格，而是一个游标*/
-			FROM P) AS PNOPNAME,(SELECT PNO, QTY
-								 FROM SPJ
-								 WHERE JNO = 'J2') AS PNOQTY
-	  WHERE PNOPNAME.PNO = PNOQTY.PNO
-	  ORDER BY PNAME) AS RESULT
-GROUP BY RESULT.PNAME
-```
-#### (5)找出所有上海厂商提供的零件号码。
-```
-use SPJ
-SELECT DISTINCT PNO
-FROM SPJ
-WHERE SNO IN (SELECT SNO
-			  FROM S
-			  WHERE CITY = '上海')
-```
-#### (6)找出使用上海产的零件的工程名称。
-```use SPJ
-SELECT JNAME
-FROM (SELECT JNO, JNAME
-	  FROM J) AS JNOJNAME, (SELECT DISTINCT JNO
-							FROM SPJ
-							WHERE SNO IN (SELECT SNO
-										  FROM S
-										  WHERE CITY = '上海')) AS JNOTEMP
-WHERE JNOJNAME.JNO = JNOTEMP.JNO
-```
-#### (7)找出没有使用天津生产的零件的工程号码。
-```
-use SPJ
-SELECT DISTINCT JNO
-FROM SPJ
-WHERE SNO NOT IN (SELECT SNO
-				  FROM S
-				  WHERE CITY = '天津')
-```
-#### (8)把全部红色零件的颜色改为蓝色。
-```
-use SPJ
-UPDATE P
-SET COLOR = '蓝'
-WHERE COLOR = '红'
-```
-#### (9)由S5供给J4的零件P6改为由S3供应。
-```
-use SPJ
-UPDATE SPJ
-SET SNO = 'S3'
-WHERE SNO = 'S5' AND JNO = 'J4' AND PNO = 'P6'
-```
-#### (10)从供应商关系中删除S2的记录，并从供应关系中删除相应的记录。
-```
-use SPJ
-
-/*1*/
 GO
-BEGIN TRAN
-
-SELECT * FROM S		/*删除前的表格*/
-SELECT * FROM SPJ
-
-DELETE FROM SPJ WHERE SNO = 'S2'
-DELETE FROM S WHERE SNO = 'S2'
-
-SELECT * FROM S		/*删除后的表格*/
-SELECT * FROM SPJ
-
-ROLLBACK
-
-/*2*/
-GO
-BEGIN TRAN
-
-SELECT * FROM S		/*删除前的表格*/
-SELECT * FROM SPJ
-
-DECLARE @fun VARCHAR(200)
-SET @fun = 'ALTER TABLE SPJ DROP CONSTRAINT FK_SPJ_S_SNO'										/*删除外键约束*/
-EXEC(@fun)
-
-DELETE FROM S WHERE SNO = 'S2'
-DELETE FROM SPJ WHERE SNO = 'S2'
-
-SELECT * FROM S		/*删除后的表格*/
-SELECT * FROM SPJ
-
-SET @fun = 'ALTER TABLE SPJ ADD CONSTRAINT FK_SPJ_S_SNO FOREIGN KEY (SNO) REFERENCES S(SNO)'	/*重新添加外键约束*/
-EXEC(@fun)
-
-ROLLBACK
+CREATE VIEW SANJIAN (SNO, PNO, QTY)
+AS
+SELECT SNO, PNO, QTY
+FROM SPJ, (SELECT JNO
+		   FROM J
+		   WHERE JNAME = '三建') AS SANJIANJNO
+WHERE SPJ.JNO = SANJIANJNO.JNO
+```
+#### (1)找出三建使用的各种零件代码和数量。
+```
+USE SPJ
+SELECT PNO 零件代码, SUM(QTY) 数量
+FROM SANJIAN
+GROUP BY PNO
+```
+#### (2)找出供应商S1的供应情况。
+```
+use SPJ
+SELECT PNO S1供应零件号, SUM(QTY) 零件数量
+FROM SANJIAN
+GROUP BY PNO
 ```
