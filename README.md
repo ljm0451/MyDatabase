@@ -64,7 +64,8 @@ S5|P6|J4|500
 
 #### 用SQL语句完成以下查询
 1. (1)求供应工程J1零件的供应商代码SNO <br/>
-      ``` t-sql
-		USE SPJ SELECT SNO 供应工程J1零件的供应商代码
-		FROM SPJ
-		WHERE JNO = 'J1'
+``` t-sql
+USE SPJ SELECT SNO 供应工程J1零件的供应商代码
+FROM SPJ
+WHERE JNO = 'J1'
+```
