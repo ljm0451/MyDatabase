@@ -12,3 +12,8 @@
 零件代码（PNO）、零件名（PNAME）、颜色（COLOR）、重量（WIGHT）<br/>
 工程项目代码（JNO）、工程项目名（JNAME）、工程项目所在城市（CITY）<br/>
 供应商代码（SNO）、零件代码（PNO）、工程项目代码（JNO）、供应数量（QTY）<br/>
+#### S表
+SNO|SNAME|STATUS|CITY
+:-:|:-:|:-:|:-:
+S1|精益|20|天津
+S2|盛锡|10|北京
