@@ -1,287 +1,156 @@
-### 第二章第6题
+### 第三章第5题
 
-设有一个SPJ数据库，包括S、P、J及SPJ四个关系模式
-
-	S(SNO,SNAME,STATUS,CITY);
-	P(PNO,PNAME,COLOR,WEIGHT);
-	J(JNO,JNAME,CITY);
-	SPJ(SNO,PNO,JNO,QTY);
-供应商代码（SNO）、供应商姓名（SNAME）、供应商状态（STATUS）、供应商所在城市（CITY）<br/>
-零件代码（PNO）、零件名（PNAME）、颜色（COLOR）、重量（WIGHT）<br/>
-工程项目代码（JNO）、工程项目名（JNAME）、工程项目所在城市（CITY）<br/>
-供应商代码（SNO）、零件代码（PNO）、工程项目代码（JNO）、供应数量（QTY）<br/>
-#### S表
-SNO|SNAME|STATUS|CITY
-:-:|:-:|:-:|:-:
-S1|精益|20|天津
-S2|盛锡|10|北京
-S3|东方红|30|北京
-S4|丰泰盛|20|天津
-S5|为民|30|上海
-#### P表
-PNO|PNAME|COLOR|WEIGHT
-:-:|:-:|:-:|:-:
-P1|螺母|20|天津
-P2|螺栓|10|北京
-P3|螺丝刀|30|北京
-P4|螺丝刀|20|天津
-P5|凸轮|30|上海
-P6|齿轮|30|上海
-#### J表
-JNO|JNAME|CITY
-:-:|:-:|:-:
-J1|三建|北京
-J2|一汽|长春
-J3|弹簧厂|天津
-J4|造船厂|天津
-J5|机车厂|唐山
-J6|无线电厂|常州
-J7|半导体厂|南京
-#### SPJ表
-SNO|PNO|JNO|QTY
-:-:|:-:|:-:|:-:
-S1|P1|J1|200
-S1|P1|J3|100
-S1|P1|J4|700
-S1|P2|J2|100
-S2|P3|J1|400
-S2|P3|J2|200
-S2|P3|J4|500
-S2|P3|J5|400
-S2|P5|J1|400
-S2|P5|J2|100
-S3|P1|J1|200
-S3|P3|J1|200
-S4|P5|J1|100
-S4|P6|J3|300
-S4|P6|J4|200
-S5|P2|J4|100
-S5|P3|J1|200
-S5|P6|J2|200
-S5|P6|J4|500
-
-#### 用SQL语句完成以下查询
-首先创建数据库及表
+针对第二章第六题完成以下操作。
+#### 对比(4)题理解聚集函数的使用，做demo测试如下。
 ```
-USE master DROP DATABASE IF EXISTS SPJ
+SELECT SNAME, MAX(QTY) MAX, MIN(QTY) MIN
+FROM SPJ, S
+WHERE SPJ.SNO = S.SNO
+GROUP BY SNAME
 
-CREATE DATABASE SPJ
+SELECT SPJ.SNO, SNAME, QTY
+FROM SPJ, S
+WHERE SPJ.SNO = S.SNO
+ORDER BY S.SNO
 
-/*
-DROP TABLE IF EXISTS S
-DROP TABLE IF EXISTS P
-DROP TABLE IF EXISTS J
-DROP TABLE IF EXISTS SPJ
-*/
+SELECT SNO, SNAME, MAX(QTY) 最大数量, MIN(QTY) 最小数量
+FROM (SELECT TOP (100) PERCENT SPJ.SNO, QTY, SNAME
+	  FROM SPJ, S
+	  WHERE SPJ.SNO = S.SNO
+	  ORDER BY S.SNO) AS TEMP
+GROUP BY SNO, SNAME
 
-GO
-
-USE SPJ CREATE TABLE S			 /* 供应商表*/
- (	
- SNO CHAR(4) PRIMARY KEY,        /* 列级完整性约束条件,SNO是主码*/                  
- SNAME CHAR(20) NOT NULL,        /* SNAME不为空*/
- STATUS SMALLINT,
- CITY CHAR(20)
- ); 
-
-CREATE TABLE P					 /* 零件表*/
- (	
- PNO CHAR(4) PRIMARY KEY,        /* 列级完整性约束条件,PNO是主码*/                  
- PNAME CHAR(20) NOT NULL,        /* PNAME不为空*/
- COLOR CHAR(10),
- WEIGHT SMALLINT
- ); 
-
-CREATE TABLE J					 /* 工程项目表*/
- (	
- JNO CHAR(4) PRIMARY KEY,        /* 列级完整性约束条件,JNO是主码*/                  
- JNAME CHAR(20) NOT NULL,        /* JNAME不为空*/
- CITY CHAR(20)
- ); 
-
-CREATE TABLE SPJ				 /* 供应情况表*/
- (	
- SNO CHAR(4) NOT NULL,
- PNO CHAR(4) NOT NULL,
- JNO CHAR(4) NOT NULL,
- QTY INT
- ); 
-
-ALTER TABLE SPJ
-   ADD CONSTRAINT FK_SPJ_S_SNO				  --添加约束 名称 FK_含外键的表_被参照表_含外键的表中的属性
-       FOREIGN KEY (SNO) REFERENCES S(SNO)    --外键约束，外键列名，被引用列名
-
-ALTER TABLE SPJ
-   ADD CONSTRAINT FK_SPJ_P_PNO				  --添加约束 名称 FK_含外键的表_被参照表_含外键的表中的属性
-       FOREIGN KEY (PNO) REFERENCES P(PNO)    --外键约束，外键列名，被引用列名
-
-ALTER TABLE SPJ
-   ADD CONSTRAINT FK_SPJ_J_JNO				  --添加约束 名称 FK_含外键的表_被参照表_含外键的表中的属性
-       FOREIGN KEY (JNO) REFERENCES J(JNO)    --外键约束，外键列名，被引用列名
-
-ALTER TABLE SPJ
-	ADD CONSTRAINT PK_SPJ_SNOPNOJNO PRIMARY KEY nonclustered
-	(SNO,
-	 PNO,
-	 JNO)
-
-INSERT  INTO  S (SNO,SNAME,STATUS,CITY) VALUES ('S1','精益',20,'天津');
-INSERT  INTO  S (SNO,SNAME,STATUS,CITY) VALUES ('S2','盛锡',10,'北京');
-INSERT  INTO  S (SNO,SNAME,STATUS,CITY) VALUES ('S3','东方红',30,'北京');
-INSERT  INTO  S (SNO,SNAME,STATUS,CITY) VALUES ('S4','丰泰盛',20,'天津');
-INSERT  INTO  S (SNO,SNAME,STATUS,CITY) VALUES ('S5','为民',30,'上海');
-
-SELECT * FROM S
-
-INSERT  INTO  P (PNO,PNAME,COLOR,WEIGHT) VALUES ('P1','螺母','红',12);
-INSERT  INTO  P (PNO,PNAME,COLOR,WEIGHT) VALUES ('P2','螺栓','绿',17);
-INSERT  INTO  P (PNO,PNAME,COLOR,WEIGHT) VALUES ('P3','螺丝刀','蓝',14);
-INSERT  INTO  P (PNO,PNAME,COLOR,WEIGHT) VALUES ('P4','螺丝刀','红',14);
-INSERT  INTO  P (PNO,PNAME,COLOR,WEIGHT) VALUES ('P5','凸轮','蓝',40);
-INSERT  INTO  P (PNO,PNAME,COLOR,WEIGHT) VALUES ('P6','齿轮','红',30);
-
-SELECT * FROM P
-
-INSERT  INTO  J (JNO,JNAME,CITY) VALUES ('J1','三建','北京');
-INSERT  INTO  J (JNO,JNAME,CITY) VALUES ('J2','一汽','长春');
-INSERT  INTO  J (JNO,JNAME,CITY) VALUES ('J3','弹簧厂','天津');
-INSERT  INTO  J (JNO,JNAME,CITY) VALUES ('J4','造船厂','天津');
-INSERT  INTO  J (JNO,JNAME,CITY) VALUES ('J5','机车厂','唐山');
-INSERT  INTO  J (JNO,JNAME,CITY) VALUES ('J6','无线电厂','常州');
-INSERT  INTO  J (JNO,JNAME,CITY) VALUES ('J7','半导体厂','南京');
-
-SELECT * FROM J
-
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S1','P1','J1',200);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S1','P1','J3',100);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S1','P1','J4',700);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S1','P2','J2',100);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S2','P3','J1',400);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S2','P3','J2',200);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S2','P3','J4',500);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S2','P3','J5',400);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S2','P5','J1',400);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S2','P5','J2',100);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S3','P1','J1',200);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S3','P3','J1',200);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S4','P5','J1',100);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S4','P6','J3',300);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S4','P6','J4',200);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S5','P2','J4',100);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S5','P3','J1',200);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S5','P6','J2',200);
-INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S5','P6','J4',500);
-
-SELECT * FROM SPJ
+SELECT SNO, MAX(QTY) 最大数量, MIN(QTY) 最小数量
+FROM (SELECT TOP (100) PERCENT SPJ.SNO, QTY, SNAME
+	  FROM SPJ, S
+	  WHERE SPJ.SNO = S.SNO
+	  ORDER BY S.SNO) AS TEMP
+GROUP BY SNO
 ```
-1. (1)求供应工程J1零件的供应商代码SNO
+#### (1)所有供应商的姓名和所在城市。
 ``` 
-USE SPJ SELECT SNO 供应工程J1零件的供应商代码
+use SPJ
+SELECT SNAME 供应商, CITY 所在城市
+FROM S
+```
+#### (2)所有零件的名称颜色重量。
+```
+use SPJ
+SELECT PNAME 零件, COLOR 颜色, WEIGHT 重量
+FROM P
+```
+#### (3)使用供应商S1所供应的零件的工程项目号。
+```
+use SPJ
+SELECT DISTINCT JNO
 FROM SPJ
-WHERE JNO = 'J1'
+WHERE SNO = 'S1'
 ```
-1. (2)求供应工程J1零件P1的供应商代码SNO
+#### (4)找出工程J2使用的各种零件的名称和数量。
 ```
-USE SPJ SELECT SNO 供应工程J1零件P1的供应商代码
+/*不考虑零件由不同供应商提供
+  J2是巧合*/
+use SPJ
+SELECT PNAME, QTY
+FROM (SELECT PNO, PNAME
+	  FROM P) AS PNOPNAME,(SELECT PNO, QTY
+						   FROM SPJ
+						   WHERE JNO = 'J2') AS PNOQTY
+WHERE PNOPNAME.PNO = PNOQTY.PNO
+ORDER BY PNAME
+
+/*考虑零件是由不同供应商提供的*/
+SELECT PNAME 零件名称, SUM(QTY) 零件数量
+FROM (SELECT TOP 100 PERCENT PNAME, QTY									/*必须加上 SELECT TOP 100 PERCENT, 不然order by 不能在子查询中*/
+	  FROM (SELECT PNO, PNAME											/*因为对于一个表的SELECT,返回的并不是一个表格，而是一个游标*/
+			FROM P) AS PNOPNAME,(SELECT PNO, QTY
+								 FROM SPJ
+								 WHERE JNO = 'J2') AS PNOQTY
+	  WHERE PNOPNAME.PNO = PNOQTY.PNO
+	  ORDER BY PNAME) AS RESULT
+GROUP BY RESULT.PNAME
+```
+#### (5)找出所有上海厂商提供的零件号码。
+```
+use SPJ
+SELECT DISTINCT PNO
 FROM SPJ
-WHERE JNO = 'J1' AND PNO = 'P1'
+WHERE SNO IN (SELECT SNO
+			  FROM S
+			  WHERE CITY = '上海')
 ```
-1. (3)求供应工程J1零件为红的供应商号码SNO
+#### (6)找出使用上海产的零件的工程名称。
+``use SPJ
+SELECT JNAME
+FROM (SELECT JNO, JNAME
+	  FROM J) AS JNOJNAME, (SELECT DISTINCT JNO
+							FROM SPJ
+							WHERE SNO IN (SELECT SNO
+										  FROM S
+										  WHERE CITY = '上海')) AS JNOTEMP
+WHERE JNOJNAME.JNO = JNOTEMP.JNO
 ```
-USE SPJ SELECT SNO 供应工程J1零件为红的供应商号码
+#### (7)找出没有使用天津生产的零件的工程号码。
+```
+use SPJ
+SELECT DISTINCT JNO
 FROM SPJ
-WHERE SPJ.JNO = 'J1' AND SPJ.PNO IN (SELECT PNO
-									FROM P
-									WHERE COLOR = '红')
-
-USE SPJ SELECT SNO 供应工程J1零件为红的供应商号码
-FROM (	SELECT PNO
-		FROM P
-		WHERE COLOR = '红') AS RED,
-	 (	SELECT SNO, PNO
-		FROM SPJ
-		WHERE JNO = 'J1') AS J1
-WHERE J1.PNO = RED.PNO
-
-USE SPJ SELECT SNO 供应工程J1零件为红的供应商号码
-FROM   (SELECT SNO, PNO
-		FROM SPJ
-		WHERE JNO = 'J1') AS J1
-WHERE J1.PNO IN (SELECT PNO
-				 FROM P
-				 WHERE COLOR = '红')
+WHERE SNO NOT IN (SELECT SNO
+				  FROM S
+				  WHERE CITY = '天津')
 ```
-1. (4)求没有使用天津供应商生产的红色零件的工程号JNO
+#### (8)把全部红色零件的颜色改为蓝色。
 ```
-USE SPJ
-SELECT  DISTINCT JNO 没有使用天津供应商生产的红零件的工程号
-FROM SPJ
-WHERE JNO NOT IN (SELECT JNO
-				  FROM SPJ,P,S 
-				  WHERE S.CITY='天津' AND COLOR='红' AND S.SNO=SPJ.SNO  AND P.PNO=SPJ.PNO)
-
-USE SPJ
-SELECT JNO 没有使用天津供应商生产的红零件的工程号
-FROM J
-WHERE EXISTS
-	  (SELECT *
-	   FROM SPJ
-	   WHERE SPJ.JNO = J.JNO
-	  )
-	  AND NOT EXISTS
-	  (SELECT *
-	   FROM (SELECT PNO,SNO
-			 FROM (SELECT PNO
-				   FROM P
-				   WHERE COLOR = '红')AS RED,				/*先选择，后连接*/
-				   (SELECT SNO
-					FROM S
-					WHERE CITY = '天津')AS TIANJIN
-			) AS REDTJ
-	   WHERE EXISTS
-			 (SELECT *
-			  FROM SPJ
-			  WHERE JNO = J.JNO
-				AND PNO = REDTJ.PNO
-				AND SNO = REDTJ.SNO
-			 )
-	  )
-
-
-USE SPJ
-SELECT DISTINCT JNO 没有使用天津供应商生产的红零件的工程号
-FROM SPJ spj1
-WHERE  NOT EXISTS
-	  (SELECT *
-	   FROM (SELECT PNO,SNO
-			 FROM (SELECT PNO
-				   FROM P
-				   WHERE COLOR = '红')AS RED,				/*先选择，后连接*/
-				   (SELECT SNO
-					FROM S
-					WHERE CITY = '天津')AS TIANJIN
-			) AS REDTJ
-	   WHERE EXISTS
-			 (SELECT *
-			  FROM SPJ spj2
-			  WHERE spj2.JNO = spj1.JNO
-				AND PNO = REDTJ.PNO
-				AND SNO = REDTJ.SNO
-			 )
-	  )
+use SPJ
+UPDATE P
+SET COLOR = '蓝'
+WHERE COLOR = '红'
 ```
-1. (5)求至少用了S1供应的全部零件的工程号JNO
+#### (9)由S5供给J4的零件P6改为由S3供应。
 ```
-use SPJ SELECT DISTINCT JNO 用了S1供应的全部零件的项目号
-FROM SPJ spj1
-WHERE NOT EXISTS(
-	SELECT *
-	FROM (SELECT DISTINCT PNO
-		  FROM SPJ
-		  WHERE SNO = 'S1') AS S1
-	WHERE NOT EXISTS
-		(SELECT *
-		 FROM (SELECT PNO FROM SPJ
-			   WHERE JNO = spj1.JNO) AS spj1_pno
-		 WHERE S1.PNO = spj1_pno.PNO))
+use SPJ
+UPDATE SPJ
+SET SNO = 'S3'
+WHERE SNO = 'S5' AND JNO = 'J4' AND PNO = 'P6'
+```
+#### (10)从供应商关系中删除S2的记录，并从供应关系中删除相应的记录。
+```
+use SPJ
+
+/*1*/
+GO
+BEGIN TRAN
+
+SELECT * FROM S		/*删除前的表格*/
+SELECT * FROM SPJ
+
+DELETE FROM SPJ WHERE SNO = 'S2'
+DELETE FROM S WHERE SNO = 'S2'
+
+SELECT * FROM S		/*删除后的表格*/
+SELECT * FROM SPJ
+
+ROLLBACK
+
+/*2*/
+GO
+BEGIN TRAN
+
+SELECT * FROM S		/*删除前的表格*/
+SELECT * FROM SPJ
+
+DECLARE @fun VARCHAR(200)
+SET @fun = 'ALTER TABLE SPJ DROP CONSTRAINT FK_SPJ_S_SNO'										/*删除外键约束*/
+EXEC(@fun)
+
+DELETE FROM S WHERE SNO = 'S2'
+DELETE FROM SPJ WHERE SNO = 'S2'
+
+SELECT * FROM S		/*删除后的表格*/
+SELECT * FROM SPJ
+
+SET @fun = 'ALTER TABLE SPJ ADD CONSTRAINT FK_SPJ_S_SNO FOREIGN KEY (SNO) REFERENCES S(SNO)'	/*重新添加外键约束*/
+EXEC(@fun)
+
+ROLLBACK
 ```
