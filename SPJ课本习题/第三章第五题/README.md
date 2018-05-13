@@ -174,19 +174,19 @@ INSERT  INTO  SPJ (SNO,PNO,JNO,QTY) VALUES ('S5','P6','J4',500);
 
 SELECT * FROM SPJ
 ```
-#### (1)求供应工程J1零件的供应商代码SNO
+1. (1)求供应工程J1零件的供应商代码SNO
 ``` 
 USE SPJ SELECT SNO 供应工程J1零件的供应商代码
 FROM SPJ
 WHERE JNO = 'J1'
 ```
-#### (2)求供应工程J1零件P1的供应商代码SNO
+1. (2)求供应工程J1零件P1的供应商代码SNO
 ```
 USE SPJ SELECT SNO 供应工程J1零件P1的供应商代码
 FROM SPJ
 WHERE JNO = 'J1' AND PNO = 'P1'
 ```
-#### (3)求供应工程J1零件为红的供应商号码SNO
+1. (3)求供应工程J1零件为红的供应商号码SNO
 ```
 USE SPJ SELECT SNO 供应工程J1零件为红的供应商号码
 FROM SPJ
@@ -211,7 +211,7 @@ WHERE J1.PNO IN (SELECT PNO
 				 FROM P
 				 WHERE COLOR = '红')
 ```
-#### (4)求没有使用天津供应商生产的红色零件的工程号JNO
+1. (4)求没有使用天津供应商生产的红色零件的工程号JNO
 ```
 USE SPJ
 SELECT  DISTINCT JNO 没有使用天津供应商生产的红零件的工程号
@@ -270,7 +270,7 @@ WHERE  NOT EXISTS
 			 )
 	  )
 ```
-#### (5)求至少用了S1供应的全部零件的工程号JNO
+1. (5)求至少用了S1供应的全部零件的工程号JNO
 ```
 use SPJ SELECT DISTINCT JNO 用了S1供应的全部零件的项目号
 FROM SPJ spj1
