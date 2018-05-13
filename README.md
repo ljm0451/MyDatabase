@@ -1,5 +1,6 @@
 # 数据库系统概论（第五版 王珊）
-![点击查看教材详情](https://raw.githubusercontent.com/ljm0451/MyDatabase/master/database.jpg)
+![picture](https://raw.githubusercontent.com/ljm0451/MyDatabase/master/database.jpg)
+[![picture]](http://www.hep.com.cn/book/details?uuid=bae52acd-15ae-1000-bd5e-d52640b36cd2)
 ### 第二章第6题
 
 设有一个SPJ数据库，包括S、P、J及SPJ四个关系模式
