@@ -80,7 +80,7 @@ WHERE SNO IN (SELECT SNO
 			  WHERE CITY = '上海')
 ```
 #### (6)找出使用上海产的零件的工程名称。
-``use SPJ
+```use SPJ
 SELECT JNAME
 FROM (SELECT JNO, JNAME
 	  FROM J) AS JNOJNAME, (SELECT DISTINCT JNO
